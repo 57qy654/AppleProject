@@ -38,20 +38,29 @@ def draw_text(text, x, y, color=BLACK):
     text_surface = font.render(text, True, color)
     screen.blit(text_surface, (x, y))
 
+def start_game():
+    print("Start game function (to be implemented)")
+
 def quit_game():
     pygame.quit()
     exit()
+
+def calculate_center(width, height):
+    center_x = (SCREEN_WIDTH - width) / 2
+    center_y = (SCREEN_HEIGHT - height) / 2
+    return center_x, center_y
 
 def main():
     # Create sprite groups
     all_sprites = pygame.sprite.Group()
 
-    quit_button = Button(400, 300, 200, 50, "Quit", quit_game)
-    start_button = Button(400, 300, 200, 50, "Start", quit_game)
+    button_width = 200
+    button_height = 50
 
-    button_center = ((SCREEN_WIDTH - quit_button.get_width()) / 2,(SCREEN_HEIGHT - quit_button.get_height()) / 2 )
+    quit_button = Button(*calculate_center(button_width, button_height - 150), button_width, button_height, "Quit", quit_game)
+    start_button = Button(*calculate_center(button_width, button_height), button_width, button_height, "Start", start_game)
 
-    all_sprites.add(quit_button)
+    all_sprites.add(quit_button, start_button)
 
     # Main loop
 
@@ -60,15 +69,15 @@ def main():
     while running:
         # Look at every event in the queue
         for event in pygame.event.get():
-            # Did the user hit a key?
             if event.type == KEYDOWN:
-                # Was it the Escape key? If so, stop the loop.
-                if event.key == K_ESCAPE:
+                if event.key == pygame.K_ESCAPE:
                     running = False
-
-            # Did the user click the window close button? If so, stop the loop.
             elif event.type == QUIT:
                 running = False
+            else:
+                # Pass the event to each sprite individually
+                for sprite in all_sprites:
+                    sprite.handle_event(event)
 
         # Update all sprites
         all_sprites.update()
@@ -80,9 +89,8 @@ def main():
         draw_text("Welcome to Apple Trivia!", 200, 100, RED)
 
         # Draw all sprites
-        #all_sprites.draw(screen)
+        all_sprites.draw(screen)
 
-        screen.blit(quit_button.image, button_center)
 
 
         # Draw your game elements here

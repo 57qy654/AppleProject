@@ -42,7 +42,7 @@ class Button(pygame.sprite.Sprite):
         pass
 
     def handle_event(self, event):
-        if event.type == MOUSEBUTTONDOWN:
+        if event.type == MOUSEBUTTONDOWN and event.button == 1:  # Check for left mouse button click
             x, y = event.pos
             if self.rect.collidepoint(x, y):
                 self.callback()
