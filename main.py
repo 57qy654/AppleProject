@@ -47,6 +47,7 @@ def main():
     all_sprites = pygame.sprite.Group()
 
     quit_button = Button(400, 300, 200, 50, "Quit", quit_game)
+    start_button = Button(400, 300, 200, 50, "Start", quit_game)
 
     button_center = ((SCREEN_WIDTH - quit_button.get_width()) / 2,(SCREEN_HEIGHT - quit_button.get_height()) / 2 )
 
@@ -85,7 +86,7 @@ def main():
 
 
         # Draw your game elements here
-        draw_text("Quit", 400, 300, (0, 0, 0))  # Black color for the text
+        #draw_text("Quit", 400, 300, (0, 0, 0))  # Black color for the text
 
         # Update the display
         pygame.display.flip()
