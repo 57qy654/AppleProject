@@ -1,5 +1,6 @@
 # Import the pygame module
 import pygame
+from Button import Button
 
 # Import pygame.locals for easier access to key coordinates
 # Updated to conform to flake8 and black standards
@@ -29,6 +30,7 @@ RED = (255, 0, 0)
 # The size is determined by the constant SCREEN_WIDTH and SCREEN_HEIGHT
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Apple Trivia Quiz")
+pygame.display.set_caption("Button Example")
 
 font = pygame.font.Font(None, 36)
 
@@ -36,7 +38,20 @@ def draw_text(text, x, y, color=BLACK):
     text_surface = font.render(text, True, color)
     screen.blit(text_surface, (x, y))
 
+def quit_game():
+    pygame.quit()
+    exit()
+
 def main():
+    # Create sprite groups
+    all_sprites = pygame.sprite.Group()
+
+    quit_button = Button(400, 300, 200, 50, "Quit", quit_game)
+
+    button_center = ((SCREEN_WIDTH - quit_button.get_width()) / 2,(SCREEN_HEIGHT - quit_button.get_height()) / 2 )
+
+    all_sprites.add(quit_button)
+
     # Main loop
 
     # Variable to keep the main loop running
@@ -54,11 +69,23 @@ def main():
             elif event.type == QUIT:
                 running = False
 
+        # Update all sprites
+        all_sprites.update()
+
         # Clear the screen
         screen.fill(WHITE)
 
         # Draw your game elements here
         draw_text("Welcome to Apple Trivia!", 200, 100, RED)
+
+        # Draw all sprites
+        #all_sprites.draw(screen)
+
+        screen.blit(quit_button.image, button_center)
+
+
+        # Draw your game elements here
+        draw_text("Quit", 400, 300, (0, 0, 0))  # Black color for the text
 
         # Update the display
         pygame.display.flip()
